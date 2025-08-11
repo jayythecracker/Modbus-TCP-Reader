@@ -35,7 +35,7 @@ jobs:
 
       # DEBUGGING STEP: This will show you the correct folder name
       - name: List runner contents
-        run: dir build\windows\runner /s
+        run: dir build\windows\x64\runner /s
 
       # Step E: Create the release directory
       - name: Create release directory
@@ -43,7 +43,7 @@ jobs:
 
       # Step F: Copy the build files into the release directory
       - name: Copy files to release folder
-        run: Copy-Item -Path "build/windows/runner/Release/*" -Destination "release" -Recurse
+        run: Copy-Item -Path "build/windows/x64/runner/Release/*" -Destination "release" -Recurse
 
       # Step G: Upload the release directory as an artifact
       - name: Upload artifact
