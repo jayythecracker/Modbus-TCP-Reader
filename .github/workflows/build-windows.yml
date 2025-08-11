@@ -1,51 +1,37 @@
-# A name for your workflow
 name: Build Flutter for Windows
 
-# The trigger: This workflow runs on every push to the 'master' branch
-# Note: Many new repos use 'main' instead of 'master'
 on:
   push:
     branches: [ master ]
 
-# The job: A sequence of steps that will be executed
 jobs:
   build:
-    # The runner: Use a Windows virtual machine provided by GitHub
     runs-on: windows-latest
 
-    # The steps: The sequence of commands to run
     steps:
-      # Step A: Check out your repository's code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step B: Set up the Flutter environment
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
 
-      # Step C: Get Flutter dependencies
       - name: Get dependencies
         run: flutter pub get
 
-      # Step D: Run the build command for Windows
       - name: Build Windows executable
         run: flutter build windows
 
-      # DEBUGGING STEP: This will show you the correct folder name
-      - name: List runner contents
-        run: dir build\windows\x64\runner /s
-
-      # Step E: Create the release directory
+      # Create the folder where we'll stage the release files
       - name: Create release directory
         run: mkdir release
 
-      # Step F: Copy the build files into the release directory
+      # Copy the built files from the correct path to our new release folder
       - name: Copy files to release folder
         run: Copy-Item -Path "build/windows/x64/runner/Release/*" -Destination "release" -Recurse
 
-      # Step G: Upload the release directory as an artifact
+      # Upload the release folder as a downloadable artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
