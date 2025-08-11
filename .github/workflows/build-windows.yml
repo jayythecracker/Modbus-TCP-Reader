@@ -1,0 +1,40 @@
+# A name for your workflow
+name: Build Flutter for Windows
+
+# 1. The trigger: This workflow runs on every push to the 'main' branch
+on:
+  push:
+    branches: [master]
+
+# 2. The job: A sequence of steps that will be executed
+jobs:
+  build:
+    # 3. The runner: Use a Windows virtual machine provided by GitHub
+    runs-on: windows-latest
+
+    # 4. The steps: The sequence of commands to run
+    steps:
+      # Step A: Check out your repository's code so the workflow can access it
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step B: Set up the Flutter environment on the Windows runner
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable" # Or 'beta', 'dev'
+
+      # Step C: Get Flutter dependencies
+      - name: Get dependencies
+        run: flutter pub get
+
+      # Step D: Run the build command for Windows
+      - name: Build Windows executable
+        run: flutter build windows
+
+      # Step E: Upload the build artifact so you can download it
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build # The name of the downloadable file
+          path: build/windows/runner/Release # The path to the build output
