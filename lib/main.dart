@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         // Mobile-optimized theme
         appBarTheme: const AppBarTheme(centerTitle: true, elevation: 2),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           shape: RoundedRectangleBorder(
