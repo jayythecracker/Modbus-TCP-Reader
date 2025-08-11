@@ -33,6 +33,10 @@ jobs:
       - name: Build Windows executable
         run: flutter build windows
 
+      # DEBUGGING STEP: This will show you the correct folder name
+      - name: List runner contents
+        run: dir build\windows\runner /s
+
       # Step E: Create the release directory
       - name: Create release directory
         run: mkdir release
