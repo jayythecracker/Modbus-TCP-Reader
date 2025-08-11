@@ -37,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-build # The name of the downloadable file
-          path: build/windows/runner/Release # The path to the build output
+          path: release/ # The path to the build output
