@@ -1,28 +1,29 @@
 # A name for your workflow
 name: Build Flutter for Windows
 
-# 1. The trigger: This workflow runs on every push to the 'main' branch
+# The trigger: This workflow runs on every push to the 'master' branch
+# Note: Many new repos use 'main' instead of 'master'
 on:
   push:
-    branches: [master]
+    branches: [ master ]
 
-# 2. The job: A sequence of steps that will be executed
+# The job: A sequence of steps that will be executed
 jobs:
   build:
-    # 3. The runner: Use a Windows virtual machine provided by GitHub
+    # The runner: Use a Windows virtual machine provided by GitHub
     runs-on: windows-latest
 
-    # 4. The steps: The sequence of commands to run
+    # The steps: The sequence of commands to run
     steps:
-      # Step A: Check out your repository's code so the workflow can access it
+      # Step A: Check out your repository's code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step B: Set up the Flutter environment on the Windows runner
+      # Step B: Set up the Flutter environment
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable" # Or 'beta', 'dev'
+          channel: "stable"
 
       # Step C: Get Flutter dependencies
       - name: Get dependencies
@@ -32,13 +33,17 @@ jobs:
       - name: Build Windows executable
         run: flutter build windows
 
-        # NEW Step E: Copy the build files to your 'release' folder
+      # Step E: Create the release directory
+      - name: Create release directory
+        run: mkdir release
+
+      # Step F: Copy the build files into the release directory
       - name: Copy files to release folder
         run: Copy-Item -Path "build/windows/runner/Release/*" -Destination "release" -Recurse
 
-      # Step E: Upload the build artifact so you can download it
+      # Step G: Upload the release directory as an artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-build # The name of the downloadable file
-          path: release/ # The path to the build output
+          name: windows-build
+          path: release/
